@@ -10,13 +10,19 @@ class UserController extends Controller
 {
     public function leaderboard(User $user)
     {
-        $leaderboard = Cache::get('leaderboard');
+        $active_leaderboard = Cache::get('leaderboard');
 
-        if (!$leaderboard) {
+        if (!$active_leaderboard) {
             $leaderboard = $user->orderBy('highscore', 'desc')->take(5)->get();
-            Cache::put('leaderboard', $leaderboard, 120);
+            $active_leaderboard = $leaderboard->map(function ($user) {
+                return [
+                    'username' => $user->username,
+                    'highscore' => $user->highscore,
+                ];
+            });
+            Cache::put('leaderboard', $active_leaderboard, 120);
         }
 
-        return $leaderboard->toJson();
+        return $active_leaderboard->toJson();
     }
 }
