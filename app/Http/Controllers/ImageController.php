@@ -42,4 +42,11 @@ class ImageController extends Controller
             return response()->json(['error' => 'Could not seed images'], 500);
         }
     }
+
+    public function random()
+    {
+        $random_images = Image::orderByRaw('RAND()')->limit(20)->get();
+
+        return response()->json($random_images, 200);
+    }
 }

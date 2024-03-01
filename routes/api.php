@@ -23,3 +23,5 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::get('/users/leaderboard', [UserController::class, 'leaderboard']);
 
 Route::get('/photos/seed', [ImageController::class, 'seed']);
+
+Route::get('/photos', [ImageController::class, 'random']);
