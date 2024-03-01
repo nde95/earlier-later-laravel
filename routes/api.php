@@ -25,3 +25,7 @@ Route::get('/users/leaderboard', [UserController::class, 'leaderboard']);
 Route::get('/photos/seed', [ImageController::class, 'seed']);
 
 Route::get('/photos', [ImageController::class, 'random']);
+
+Route::post('/users/register', [UserController::class, 'register']);
+
+Route::post('/users/login', [UserController::class, 'login']);
