@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
+    // get cached leaderboard
     public function leaderboard(User $user)
     {
         $active_leaderboard = Cache::get('leaderboard');
@@ -27,6 +28,7 @@ class UserController extends Controller
         return $active_leaderboard->toJson();
     }
 
+    // register new user
     public function register(Request $request)
     {
         $request->validate([
@@ -49,6 +51,7 @@ class UserController extends Controller
         ], 201);
     }
 
+    // login existing user
     public function login(Request $request)
     {
         $request->validate([
@@ -66,6 +69,40 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Login successful',
+            'username' => $user->username,
+            'highscore' => $user->highscore,
+        ], 200);
+    }
+
+    // update high score
+    public function updateHighScore(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'highscore' => 'required',
+        ]);
+
+
+        $user = User::where('username', $request->username)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+
+        // this is already verified on the client side, but check anyway
+        if ($request->highscore <= $user->highscore) {
+            return response()->json([
+                'message' => 'Highscore not updated',
+            ], 200);
+        }
+
+        $user->highscore = $request->highscore;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Highscore updated successfully',
             'username' => $user->username,
             'highscore' => $user->highscore,
         ], 200);

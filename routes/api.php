@@ -29,3 +29,5 @@ Route::get('/photos', [ImageController::class, 'random']);
 Route::post('/users/register', [UserController::class, 'register']);
 
 Route::post('/users/login', [UserController::class, 'login']);
+
+Route::patch('/users/highscore', [UserController::class, 'updateHighscore']);
