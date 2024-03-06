@@ -7,7 +7,7 @@ This is an API created to replace the old Node/Express API to provide the back e
 ## Features
 
 -   Leaderboards (now with caching)
--   SQL instead of NoSQL
+-   MySQL instead of MongoDB
 -   Registration and Authentication
 -   Most importantly, Image storing and fetching for the game itself.
 -   Still built entirely on the [Flickr](https://www.flickr.com/) API, so big thank you to them for the functionality.
